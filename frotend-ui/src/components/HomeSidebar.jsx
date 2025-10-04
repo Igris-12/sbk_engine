@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FiHome, FiBookOpen, FiZap, FiGitBranch, FiTarget, FiUser } from 'react-icons/fi';
+import { FiHome, FiSearch, FiGitBranch, FiZap } from 'react-icons/fi';
 
 const SidebarItem = ({ icon, text, to }) => (
   <Link
@@ -15,12 +15,10 @@ const SidebarItem = ({ icon, text, to }) => (
 const HomeSidebar = () => (
   <aside className="w-64 flex-shrink-0 bg-slate-950 border border-slate-700 rounded-xl p-5 shadow-2xl h-full transition-all duration-300">
     <nav className="flex flex-col gap-3">
-      <SidebarItem icon={<FiHome size={20} />} text="Overview" to="/" />
-      <SidebarItem icon={<FiUser size={20} />} text="Species Explorer" to="/dashboard/Species-Explorer" />
-      <SidebarItem icon={<FiZap size={20} />} text="Stic Filter" to="/dashboard/Stic-Filter" />
-      <SidebarItem icon={<FiGitBranch size={20} />} text="Knowledge Graph" to="/dashboard/Knowledge-Graph" />
-      <SidebarItem icon={<FiBookOpen size={20} />} text="Insights & Summaries" to="/dashboard/Insights-Summaries" />
-      <SidebarItem icon={<FiTarget size={20} />} text="Mission Relevance" to="/dashboard/Mission-Relevance" />
+      <SidebarItem icon={<FiHome size={20} />} text="Dashboard" to="/" />
+      <SidebarItem icon={<FiSearch size={20} />} text="Publication Explorer" to="/PublicationExplorer" />
+      <SidebarItem icon={<FiGitBranch size={20} />} text="Knowledge Graph" to="/KnowledgeGraph" />
+      <SidebarItem icon={<FiZap size={20} />} text="AI Insights" to="/AIInsights" />
     </nav>
   </aside>
 );

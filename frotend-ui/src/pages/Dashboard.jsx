@@ -12,7 +12,7 @@ const Dashboard = () => {
   const { topic } = useParams();
   const navigate = useNavigate();
 
-  const readableTopic = topic.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  const readableTopic = topic ? topic.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'NASA Bioscience Overview';
   
   // State for the initial AI summary/conclusion
   const [summary, setSummary] = useState('');
