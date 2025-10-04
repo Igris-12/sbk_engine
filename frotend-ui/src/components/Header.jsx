@@ -1,33 +1,33 @@
-import React from "react";
-import { FiSearch, FiSliders } from 'react-icons/fi';
-import nasaLogo from '../assets/nasa-logo.png'; // Make sure you have this logo in assets
-
 // src/components/Header.jsx
-// ...
+import { FiSearch, FiSliders } from 'react-icons/fi';
+import nasaLogo from '../assets/nasa-logo.png';
+
 const Header = () => {
   return (
-    <header className="flex items-center justify-between p-4 border-b border-nasa-dark-gray bg-nasa-sidebar-bg/60 backdrop-blur-sm"> {/* Added custom colors and blur */}
-      <div className="flex items-center gap-3"> {/* Adjusted gap */}
-        <img src={nasaLogo} alt="NASA Logo" className="h-10 w-10" /> {/* Slightly smaller logo */}
-        <h1 className="text-xl font-semibold tracking-wide text-nasa-light-gray">NASA Bioscience Explorer</h1> {/* Adjusted font size/weight */}
+    <header className="flex items-center justify-between p-4 px-8 border-b border-space-border bg-space-card/80 backdrop-blur-md fixed w-full top-0 z-50 shadow-lg">
+      <div className="flex items-center gap-3">
+        <img src={nasaLogo} alt="NASA Logo" className="h-10 w-10" />
+        <h1 className="text-2xl font-bold tracking-wide text-text-light">NASA Bioscience Explorer</h1>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
         <div className="relative">
-          <FiSearch className="absolute top-1/2 left-3 -translate-y-1/2 text-nasa-gray" />
+          <FiSearch className="absolute top-1/2 left-3 -translate-y-1/2 text-text-muted" />
           <input
             type="text"
             placeholder="Search for publications..."
-            className="w-80 bg-nasa-dark-gray border border-nasa-border rounded-lg py-2 pl-10 pr-4 text-nasa-light-gray focus:outline-none focus:ring-1 focus:ring-nasa-accent-cyan"
+            className="w-96 bg-space-light border border-space-border rounded-full py-2.5 pl-10 pr-4 text-text-light placeholder-text-muted
+                       focus:outline-none focus:ring-2 focus:ring-accent-teal transition-all duration-200"
           />
-          <FiSliders className="absolute top-1/2 right-3 -translate-y-1/2 text-nasa-gray" />
+          <FiSliders className="absolute top-1/2 right-3 -translate-y-1/2 text-text-muted cursor-pointer hover:text-text-light" />
         </div>
-        <div className="relative inline-block w-12 h-6 bg-nasa-dark-gray rounded-full cursor-pointer">
-          <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-nasa-accent-cyan rounded-full transition-transform transform translate-x-6"></div>
+        {/* Toggle switch for theme or other settings */}
+        <div className="relative inline-block w-14 h-7 bg-space-light rounded-full cursor-pointer p-1 transition-all duration-200 shadow-inner-lg">
+          <div className="absolute w-5 h-5 bg-accent-teal rounded-full transition-transform transform translate-x-0 group-hover:translate-x-full"></div>
+          {/* You'd add logic here to toggle the translate-x-6 class for 'on' state */}
         </div>
       </div>
     </header>
   );
 };
-// ...
 
 export default Header;

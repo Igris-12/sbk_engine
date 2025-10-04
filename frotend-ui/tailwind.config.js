@@ -8,20 +8,25 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Define your custom colors here
-        // These names can be whatever you like
-        'dark-bg': '#0A122A',       // Dark blue background (from the original mock-up, if you want to use it instead of the image)
-        'nasa-blue': '#1a202c',     // A darker blue for general UI elements
-        'nasa-light-gray': '#E0E0E0', // Light text/icon color
-        'nasa-gray': '#808080',     // Medium gray for subtle text
-        'nasa-dark-gray': '#333A4D', // Darker gray for borders/separators
-        'nasa-accent-cyan': '#00BCD4', // The bright cyan accent
-        'nasa-secondary-blue': '#2C3A50', // For cards/backgrounds within the main area
-        'nasa-sidebar-bg': '#1E2538', // For the sidebar background
-        'nasa-border': '#334155', // A subtle border color
+        // Deep Space Palette
+        'space-dark': '#0C0F1A',          // Main background, deep navy/black
+        'space-card': '#1A1E2C',          // Background for major cards/sections
+        'space-light': '#2A3042',         // Lighter elements, inputs, subtle borders
+        'space-border': '#3B435C',        // Distinct border color
+        'text-light': '#E5E7EB',          // Primary light text (almost white)
+        'text-muted': '#9CA3AF',          // Muted gray for descriptions
+        'accent-teal': '#00C9A7',         // Bright, energetic accent color (teal/cyan)
+        'accent-blue-light': '#38BDF8',   // Secondary bright blue accent
+        'accent-blue-dark': '#1E3A8A',    // Darker blue, for depth in gradients
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'], // Set Inter as the default sans-serif font
+        sans: ['Inter', 'sans-serif'],
+        mono: ['Space Mono', 'monospace'], // A cool space-themed font for stats/code
+      },
+      // Optional: Custom shadows for depth
+      boxShadow: {
+        '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
+        'inner-lg': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
       },
     },
   },
