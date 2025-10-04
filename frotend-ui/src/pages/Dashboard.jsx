@@ -1,38 +1,63 @@
-// src/pages/Dashboard.jsx
-import React from 'react';
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { FiSend } from 'react-icons/fi';
 
-const Dashboard = ({ topic, onGoBack }) => {
+const Dashboard = () => {
+  const { topic } = useParams();
+  const navigate = useNavigate();
+
+  const readableTopic = topic.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleAskQuestion = (e) => {
+    e.preventDefault();
+    if (!question.trim()) return;
+    setIsLoading(true);
+    setAnswer(null);
+
+    setTimeout(() => {
+      const mockAnswer = `For "${readableTopic}" and the question "${question}", research shows promising findings.`;
+      setAnswer(mockAnswer);
+      setIsLoading(false);
+      setQuestion('');
+    }, 1200);
+  };
+
   return (
-    <div className="p-4 h-full flex flex-col">
-      <h2 className="text-4xl font-bold text-text-light mb-4 border-b-2 border-accent-teal pb-2">Dashboard: {topic}</h2>
-      <p className="text-text-muted text-lg mb-8">
-        This is where the detailed insights, summaries, graphs, and relevant publications for "{topic}" will be displayed.
-      </p>
-      {/* Example content for dashboard */}
-      <div className="grid grid-cols-2 gap-6 flex-grow">
-        <div className="bg-space-light/50 p-6 rounded-lg border border-space-border shadow-md">
-          <h3 className="text-xl font-semibold text-text-light mb-3">Summary for {topic}</h3>
-          <p className="text-text-muted">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-          </p>
-        </div>
-        <div className="bg-space-light/50 p-6 rounded-lg border border-space-border shadow-md">
-          <h3 className="text-xl font-semibold text-text-light mb-3">Key Data Points</h3>
-          <ul className="list-disc list-inside text-text-muted">
-            <li>Metric A: 1234 units</li>
-            <li>Metric B: 56.7% change</li>
-            <li>Status: Ongoing research</li>
-          </ul>
-        </div>
+    <div className="p-6 h-full flex flex-col">
+      <h2 className="text-3xl font-bold text-text-light mb-4 border-b border-accent-teal pb-2">
+        Dashboard: {readableTopic}
+      </h2>
+
+      <div className="bg-space-light/50 p-6 rounded-xl border border-accent-blue-dark/50 shadow-2xl mb-8">
+        <h3 className="text-xl font-bold text-accent-blue-light mb-4">AI Research Assistant 🤖</h3>
+        <form onSubmit={handleAskQuestion} className="flex gap-3 mb-4">
+          <input
+            type="text"
+            placeholder={`Ask about ${readableTopic}...`}
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            className="flex-1 bg-space-dark border border-space-border rounded-lg py-3 px-4 text-text-light placeholder-text-muted focus:ring-2 focus:ring-accent-teal outline-none"
+            disabled={isLoading}
+          />
+          <button
+            type="submit"
+            disabled={isLoading || !question.trim()}
+            className="bg-accent-teal text-space-dark font-bold py-3 px-6 rounded-lg hover:bg-accent-teal/80 transition-colors"
+          >
+            {isLoading ? 'Thinking...' : <FiSend size={20} />}
+          </button>
+        </form>
+        {answer && <div className="p-4 bg-space-dark rounded-lg border border-accent-teal/50">{answer}</div>}
       </div>
 
       <button
-        onClick={onGoBack}
-        className="mt-8 bg-accent-blue-dark text-text-light font-bold py-3 px-6 rounded-full hover:bg-accent-blue-dark/80 transition-colors self-start shadow-md"
+        onClick={() => navigate('/')}
+        className="mt-8 bg-accent-blue-dark text-text-light font-bold py-3 px-6 rounded-full hover:bg-accent-blue-dark/80 transition-colors self-start"
       >
-        &larr; Back to Home Overview
+        ← Back to Overview
       </button>
     </div>
   );
