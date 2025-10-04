@@ -1,0 +1,30 @@
+import React from "react";
+import { FiBookOpen, FiShare2, FiBarChart2, FiTarget } from 'react-icons/fi';
+
+// src/components/Sidebar.jsx
+// ...
+const SidebarItem = ({ icon, text, active }) => (
+  <a href="#" className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
+      active ? 'bg-nasa-accent-cyan/20 text-nasa-accent-cyan font-semibold' : 'text-nasa-gray hover:bg-nasa-dark-gray hover:text-nasa-light-gray'
+    }`}>
+    {icon}
+    <span className="text-sm">{text}</span> {/* Adjusted font size */}
+  </a>
+);
+
+const Sidebar = () => {
+  return (
+    <aside className="w-56 flex-shrink-0 bg-nasa-sidebar-bg/50 border border-nasa-border rounded-xl p-4 backdrop-blur-sm"> {/* Custom colors and blur */}
+      <nav className="flex flex-col gap-2">
+        <SidebarItem icon={<FiBookOpen size={18} />} text="Publications Explorer" active />
+        <SidebarItem icon={<FiShare2 size={18} />} text="Knowledge Graph" />
+        <SidebarItem icon={<FiBarChart2 size={18} />} text="Insights & Summaries" />
+        <SidebarItem icon={<FiTarget size={18} />} text="Mission Relevance" />
+        <SidebarItem icon={<FiBarChart2 size={18} />} text="Trends & Gaps" />
+      </nav>
+    </aside>
+  );
+};
+// ...
+
+export default Sidebar;

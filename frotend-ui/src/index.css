@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* src/index.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  /* Temporarily comment out background-image to see the 'dark-bg' */
+  /* background-image: url('./assets/background.jpg'); */
+  /* Let's try a solid background first to ensure colors are working */
+  background-color: #0A122A; /* Using one of our new custom colors */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  font-family: 'Inter', sans-serif; /* Now uses the font from tailwind.config.js */
+  min-height: 100vh;
+  color: #E0E0E0; /* Default text color for the body */
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
