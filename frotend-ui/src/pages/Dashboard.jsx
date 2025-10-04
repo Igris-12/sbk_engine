@@ -1,11 +1,12 @@
+// Dashboard.jsx (Updated to fetch Summary and Assistant data from the API)
+
 import React, { useState, useEffect, useCallback } from 'react'; 
 import { useParams, useNavigate } from 'react-router-dom';
 import { FiSend } from 'react-icons/fi';
-import axios from 'axios'; // 🌟 We need axios for API calls
+import axios from 'axios'; // 🌟 Import Axios for API communication
 
 // Configuration for the Node.js Proxy Server
-// Make sure your Node.js server is running on this port (e.g., in a separate terminal)
-const NODE_SERVER_URL = 'http://localhost:3000';
+const NODE_SERVER_URL = 'http://localhost:3000'; // Ensure your Node.js server runs here
 
 const Dashboard = () => {
   const { topic } = useParams();
@@ -25,9 +26,6 @@ const Dashboard = () => {
 
   /**
    * Generic function to send a query through Node.js proxy to Flask/Gemini.
-   * Uses useCallback to prevent unnecessary re-creations.
-   * @param {string} userQuery - The prompt to send to Gemini.
-   * @returns {Promise<string>} - The response text from Gemini.
    */
   const fetchGeminiResponse = useCallback(async (userQuery) => {
     setError(null); // Clear previous errors
@@ -35,21 +33,21 @@ const Dashboard = () => {
       const response = await axios.post(`${NODE_SERVER_URL}/ask-gemini`, {
         query: userQuery,
       });
-      // The response.data structure is { "response": "..." } from the Flask server
+      // The response structure from Flask/Node is { "response": "..." }
       return response.data.response; 
     } catch (err) {
       console.error('API Error:', err);
-      // Construct a user-friendly error message
       const errorMessage = err.response?.data?.error || err.message || 'An unknown API error occurred.';
       setError(errorMessage);
+      // Propagate the error so the calling function can handle loading state
       throw new Error(errorMessage);
     }
   }, []);
 
   // --- 1. Initial Topic Summary/Conclusion Fetch (Runs once on component load) ---
   useEffect(() => {
-    // Prompt tells Gemini to combine both summary and conclusion
-    const initialPrompt = `Provide a detailed summary and conclusion for the topic: "${readableTopic}". Format the response clearly with headings or paragraphs.`;
+    // Prompt to get the combined summary and conclusion from Gemini
+    const initialPrompt = `Provide a detailed summary and conclusion for the topic: "${readableTopic}". Structure the response clearly with headings for 'Summary' and 'Conclusion'.`;
     
     setIsSummaryLoading(true);
 
@@ -58,12 +56,12 @@ const Dashboard = () => {
         setSummary(geminiResponseText);
       })
       .catch(err => {
-        setSummary("Failed to load topic summary. Please ensure your Node.js (3000) and Flask (5000) servers are running correctly.");
+        setSummary("⚠️ Could not load topic summary. Please check if Node.js (Port 3000) and Flask (Port 5000) servers are running.");
       })
       .finally(() => {
         setIsSummaryLoading(false);
       });
-  }, [topic, fetchGeminiResponse, readableTopic]); // Dependency array ensures proper re-runs
+  }, [topic, fetchGeminiResponse, readableTopic]); 
 
   // --- 2. AI Assistant Query Handler (Replaces the setTimeout mock) ---
   const handleAskQuestion = async (e) => {
@@ -80,7 +78,7 @@ const Dashboard = () => {
       setAnswer(geminiResponseText);
       setQuestion(''); // Clear input on success
     } catch (err) {
-      // Error message is set in fetchGeminiResponse
+      // Error message is already set by fetchGeminiResponse
       setAnswer(`Error: Failed to get a response. Details: ${error}`);
     } finally {
       setIsAssistantLoading(false);
@@ -93,17 +91,17 @@ const Dashboard = () => {
         Dashboard: {readableTopic}
       </h2>
 
+      {/* Display general API error message if one occurred */}
+      {error && (
+        <div className="p-3 mb-4 bg-red-900 border border-red-500 rounded-lg text-red-300">
+          **API Error:** {error}
+        </div>
+      )}
+
       {/* --- AI Research Assistant Section (Original Functionality, now live API) --- */}
       <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700 shadow-2xl mb-8">
         <h3 className="text-xl font-bold text-teal-400 mb-4">AI Research Assistant 🤖</h3>
         
-        {/* Display general API error */}
-        {error && (
-          <div className="p-3 mb-4 bg-red-900 border border-red-500 rounded-lg text-red-300">
-            **API Error:** {error}
-          </div>
-        )}
-
         <form onSubmit={handleAskQuestion} className="flex gap-3 mb-4">
           <input
             type="text"
@@ -123,14 +121,14 @@ const Dashboard = () => {
         </form>
         
         {answer && (
-          // Use whitespace-pre-wrap to respect newline characters from Gemini's response
+          // Use whitespace-pre-wrap to respect newlines/formatting from Gemini's response
           <div className="p-4 bg-slate-900 rounded-lg border border-teal-400/50 whitespace-pre-wrap">
             **Answer:** {answer}
           </div>
         )}
       </div>
 
-      {/* --- Initial Summary/Conclusion Section (Replacing the hardcoded grid) --- */}
+      {/* --- Initial Summary/Conclusion Section (Now Fetched from API) --- */}
       <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700 shadow-2xl mb-8">
         <h3 className="text-xl font-bold text-green-400 mb-4">AI Topic Summary & Conclusion 📝</h3>
         {isSummaryLoading ? (
@@ -142,11 +140,11 @@ const Dashboard = () => {
           </div>
         )}
       </div>
-      {/* END OF NEW SECTION */}
+      {/* END OF API-FETCHED SUMMARY SECTION */}
 
       <button
         onClick={() => navigate('/')}
-        className="mt-auto bg-slate-700 text-slate-100 font-bold py-3 px-6 rounded-full hover:bg-slate-600 transition-colors self-start"
+        className="mt-8 bg-slate-700 text-slate-100 font-bold py-3 px-6 rounded-full hover:bg-slate-600 transition-colors self-start"
       >
         ← Back to Overview
       </button>
