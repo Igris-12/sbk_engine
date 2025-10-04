@@ -5,7 +5,7 @@ import { FiHome, FiBookOpen, FiZap, FiGitBranch, FiTarget, FiUser } from 'react-
 const SidebarItem = ({ icon, text, to }) => (
   <Link
     to={to}
-    className="flex items-center gap-3 px-5 py-3 rounded-lg transition-colors text-base text-text-muted hover:bg-space-light hover:text-text-light"
+    className="flex items-center gap-3 px-5 py-3 rounded-lg transition-colors text-base text-slate-100 hover:bg-slate-800/50 hover:text-teal-400"
   >
     {icon}
     <span>{text}</span>
@@ -13,7 +13,7 @@ const SidebarItem = ({ icon, text, to }) => (
 );
 
 const HomeSidebar = () => (
-  <aside className="w-64 flex-shrink-0 bg-space-card/70 border border-space-border rounded-xl p-5 backdrop-blur-md shadow-lg h-full transition-all duration-300">
+  <aside className="w-64 flex-shrink-0 bg-slate-950 border border-slate-700 rounded-xl p-5 shadow-2xl h-full transition-all duration-300">
     <nav className="flex flex-col gap-3">
       <SidebarItem icon={<FiHome size={20} />} text="Overview" to="/" />
       <SidebarItem icon={<FiUser size={20} />} text="Species Explorer" to="/dashboard/Species-Explorer" />

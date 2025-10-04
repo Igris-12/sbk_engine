@@ -7,12 +7,9 @@
 
 /* --- 1. THEME & COLOR PALETTE --- */
 :root {
-  --color-dark-space: #0b0f19;
-  --color-space-blue: #1b2735; /* Slightly lighter for the gradient */
-  --color-nebula-purple: #8b5cf6;
-  --color-star-cyan: #14b8a6;
-  --color-text-light: #e2e8f0;
-  --color-text-muted: #94a3b8;
+  --primary-bg: #1e293b; /* slate-800 */
+  --primary-accent: #14b8a6; /* teal-400 */
+  --text-main: #f8fafc; /* slate-100 */
 }
 
 /* --- 2. NEW GRADIENT & IMAGE BACKGROUND --- */
