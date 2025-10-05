@@ -1,42 +1,34 @@
 import React, { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "./components/Header";
-import HomeSidebar from "./components/HomeSidebar";
+// Removed HomeSidebar import
+
+const AppContent = () => {
+    // The header uses pt-16, so the main content starts below it.
+    return (
+        <div className="flex h-screen overflow-hidden pt-16">
+            {/* Main Scrollable Content Area */}
+            <main className="flex-1 overflow-y-auto">
+                {/* The Outlet renders Home or DashboardLayout */}
+                <Outlet />
+            </main>
+        </div>
+    );
+};
 
 function App() {
-  const [globalSearchTerm, setGlobalSearchTerm] = useState("");
-  const location = useLocation(); // Gets the current URL info
+  const [globalSearchTerm, setGlobalSearchTerm] = useState("");
 
-  // --- THIS IS THE KEY LOGIC ---
-  // List all the pages where you DON'T want the sidebar.
-  const noSidebarPaths = ['/', '/login', '/signup'];
-  
-  // This will be 'true' for pages like Dashboard, and 'false' for Home, Login, etc.
-  const showSidebar = !noSidebarPaths.includes(location.pathname);
+  const handleSearch = (term) => {
+    setGlobalSearchTerm(term);
+  };
 
-  const handleSearch = (term) => {
-    setGlobalSearchTerm(term);
-  };
-
-  return (
-    <div className="min-h-screen bg-space-dark text-text-light font-sans antialiased">
-      <Header onSearch={handleSearch} />
-      
-      <div className="flex h-screen overflow-hidden pt-16">
-        {/* The sidebar is now rendered ONLY if showSidebar is true */}
-        {showSidebar && (
-          <div className="w-64 flex-shrink-0 h-full overflow-y-auto">
-            <HomeSidebar />
-          </div>
-        )}
-        
-        {/* The <Outlet> renders the correct page component (Home, Dashboard, etc.) */}
-        <main className="flex-1 overflow-y-auto p-6">
-           <Outlet context={{ searchTerm: globalSearchTerm }} />
-        </main>
-      </div>
-    </div>
-  );
+  return (
+    <div className="min-h-screen bg-space-dark text-text-light font-sans antialiased">
+      <Header onSearch={handleSearch} /> 
+      <AppContent globalSearchTerm={globalSearchTerm} />
+    </div>
+  );
 }
 
 export default App;

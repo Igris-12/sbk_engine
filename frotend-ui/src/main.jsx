@@ -4,41 +4,48 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './index.css';
 
-// Component and Page Imports
-import App from './App.jsx';
-import Home from './pages/Home.jsx';
-import Dashboard from './pages/Dashboard.jsx';
-import KnowledgeGraph from './pages/KnowledgeGraph';
-import PublicationExplorer from './pages/PublicationExplorer';
-import LoginPage from './pages/LoginPage.jsx';
-import SignupPage from './pages/SignupPage.jsx';
-import { FlashProvider } from './contexts/FlashContext'; // 1. IMPORT THE PROVIDER
+// Import all top-level components
+import App from './App.jsx'; // Provides Header and main container
+import Home from './pages/Home.jsx'; // Topic selection page
+import Dashboard from './pages/Dashboard.jsx'; // AI Summary/Conclusion (index route)
+import PublicationsExplorer from './pages/PublicationExplorer.jsx'; 
+import KnowledgeGraph from './pages/KnowledgeGraph.jsx';
+import AllInsights from './pages/AIInsights.jsx'
+import DashboardLayout from './components/DashboardLayout.jsx';
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />, // App provides the layout for ALL pages
-    children: [
-      {
-        index: true, // This makes Home the default page for "/"
-        element: <Home />,
-      },
-      { path: "dashboard/:topic", element: <Dashboard /> },
-      { path: "PublicationExplorer", element: <PublicationExplorer /> },
-      { path: "KnowledgeGraph", element: <KnowledgeGraph /> },
-      { path: "AIInsights", element: <Dashboard /> },
-      { path: "login", element: <LoginPage /> },
-      { path: "signup", element: <SignupPage /> },
-    ],
-  },
+  {
+    path: "/",
+    element: <App />, 
+    children: [
+      { index: true, element: <Home /> }, // Home page at root '/'
+        
+      // Dashboard Layout (Sidebar) for ALL TOPIC-SPECIFIC views
+      {
+        path: "dashboard/:topic",
+        element: <DashboardLayout />,
+        children: [
+          // Path: /dashboard/:topic (Default view: AI Summary & Conclusion)
+          { index: true, element: <Dashboard /> }, 
+          // Path: /dashboard/:topic/publications
+          { path: "publications", element: <PublicationsExplorer /> },
+          // Path: /dashboard/:topic/knowledge-graphs
+          { path: "knowledge-graphs", element: <KnowledgeGraph /> },
+          // Path: /dashboard/:topic/ai-insights
+          { path: "ai-insights", element: <AllInsights /> },
+        ],
+      },
+
+      // Top-level navigation pages (if accessed outside a topic path, e.g., /KnowledgeGraph)
+      { path: "PublicationExplorer", element: <PublicationsExplorer /> }, 
+      { path: "KnowledgeGraph", element: <KnowledgeGraph /> },
+      { path: "AIInsights", element: <AllInsights /> },
+    ],
+  },
 ]);
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    {/* 2. Wrap the RouterProvider with the FlashProvider */}
-    <FlashProvider>
-      <RouterProvider router={router} />
-    </FlashProvider>
-  </StrictMode>
+  <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>
 );
-

@@ -10,22 +10,7 @@ const Header = ({ onSearch }) => {
       </Link>
       
       {/* Your search functionality can remain here */}
-      
-      <div className="flex items-center gap-4">
-        {/* 2. Use Link for client-side navigation */}
-        <Link
-          to="/login"
-          className="px-4 py-2 text-slate-300 hover:text-white transition-colors"
-        >
-          Login
-        </Link>
-        <Link
-          to="/signup"
-          className="px-6 py-2 bg-cyan-500 text-slate-900 rounded-lg font-semibold hover:bg-cyan-400 transition-all hover:scale-105"
-        >
-          Sign Up
-        </Link>
-      </div>
+  
     </header>
   );
 };
